@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from "./App";
 import { tasksAPI, authAPI } from "./api";
 
@@ -128,9 +128,7 @@ describe("App Component", () => {
     });
     
     await waitFor(() => {
-      expect(
-        screen.getByText("No tasks found. Create your first task!"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("No tasks found. Create your first task!")).toBeInTheDocument();
     });
   });
 });
