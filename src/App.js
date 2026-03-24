@@ -33,7 +33,7 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
