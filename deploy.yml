@@ -1,0 +1,31 @@
+# Deployment Configuration for TaskSphere Frontend
+
+## GitHub Pages Deployment
+- **Trigger**: Push to main branch
+- **Build**: `npm run build`
+- **Deploy**: GitHub Pages
+- **URL**: https://nataliavozhdaeva.github.io/TaskSphere-frontend/
+
+## Staging Server Deployment
+- **Trigger**: Push to develop branch
+- **Host**: ${{ secrets.DEPLOY_HOST }}
+- **User**: ${{ secrets.DEPLOY_USER }}
+- **Path**: /var/www/tasksphere-frontend
+- **Service**: nginx
+
+## Required GitHub Secrets
+
+### For GitHub Pages Deployment:
+- `GITHUB_TOKEN`: Automatically provided by GitHub Actions
+
+### For Staging/Production Server:
+- `DEPLOY_HOST`: Server hostname (e.g., example.com)
+- `DEPLOY_USER`: SSH username (e.g., deploy)
+- `DEPLOY_KEY`: SSH private key for server access
+
+### For Security Scanning:
+- `SNYK_TOKEN`: Snyk API token for vulnerability scanning
+
+## Environment Variables
+- `REACT_APP_API_URL`: Backend API URL
+- `REACT_APP_ENVIRONMENT`: Environment (development/staging/production)
