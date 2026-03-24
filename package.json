@@ -40,5 +40,22 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1"
+  },
+  "overrides": {
+    "nth-check": "^2.0.1",
+    "postcss": "^8.4.31",
+    "serialize-javascript": "^7.0.3",
+    "underscore": "^1.13.7",
+    "webpack-dev-server": "^5.2.1",
+    "@tootallnate/once": "^3.0.0",
+    "css-minimizer-webpack-plugin": {
+      "serialize-javascript": "^7.0.3"
+    },
+    "rollup-plugin-terser": {
+      "serialize-javascript": "^7.0.3"
+    },
+    "@pmmmwh/react-refresh-webpack-plugin": {
+      "webpack-dev-server": "^5.2.1"
+    }
   }
 }
