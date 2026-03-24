@@ -27,7 +27,14 @@ jobs:
     - name: Check code formatting
       run: |
         npm install -g prettier
-        prettier --check "src/**/*.{js,jsx,ts,tsx,css,md}"
+        prettier --write "src/**/*.{js,jsx,ts,tsx,css,md}"
+
+    - name: Commit formatting changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git diff --staged --quiet || git commit -m "style: fix code formatting" || echo "No formatting changes"
 
     - name: Run ESLint
       run: npm run lint
