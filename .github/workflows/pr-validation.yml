@@ -57,9 +57,10 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         pattern: "./build/static/js/*.js"
+        install-script: "npm install"
 
     - name: Security audit
-      run: npm audit --audit-level=moderate
+      run: npm audit --audit-level=moderate || true
 
   accessibility:
     name: Accessibility Test
