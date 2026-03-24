@@ -7,17 +7,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [token, setToken] = useState(null); // Start with null to force login
+  const [token, setToken] = useState(() => localStorage.getItem('token'));
   const [showLogin, setShowLogin] = useState(true);
 
   // Configure axios with token if available
   useEffect(() => {
     if (token) {
-      console.log("Setting up authentication with token:", token);
       api.defaults.headers.common["Authorization"] = `Token ${token}`;
       setIsAuthenticated(true);
     } else {
-      console.log("No token found, user not authenticated");
       setIsAuthenticated(false);
     }
   }, [token]);
@@ -25,17 +23,10 @@ function App() {
   const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
-      console.log("Fetching tasks with token:", token);
-      console.log(
-        "Authorization header:",
-        api.defaults.headers.common["Authorization"],
-      );
       const data = await tasksAPI.getTasks();
-      console.log("Tasks received:", data);
       setTasks(data);
       setError(null);
     } catch (err) {
-      console.error("Error details:", err.response?.data, err.response?.status);
       setError(
         `Failed to fetch tasks (${err.response?.status}). Make sure the backend server is running on http://localhost:8000`,
       );
@@ -74,11 +65,8 @@ function App() {
 
   const handleLogin = async (username, password) => {
     try {
-      console.log("Attempting login with:", username);
       const response = await authAPI.login({ username, password });
-      console.log("Login response:", response);
       const token = response.token;
-      console.log("Received token:", token);
 
       // Set token in localStorage and state
       localStorage.setItem("token", token);
@@ -94,11 +82,6 @@ function App() {
         setIsAuthenticated(true);
       }, 100);
     } catch (err) {
-      console.error(
-        "Login error details:",
-        err.response?.data,
-        err.response?.status,
-      );
       setError("Login failed. Please check your credentials.");
     }
   };
