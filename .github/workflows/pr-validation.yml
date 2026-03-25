@@ -30,4 +30,4 @@ jobs:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         pattern: "./build/static/js/*.js"
         install-script: "npm install"
-        build-script: "npm run build"
+        build-script: "build"
