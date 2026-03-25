@@ -23,8 +23,11 @@ jobs:
       env:
         CI: false
     
+    - run: echo "CI=false" >> $GITHUB_ENV
+    
     - uses: preactjs/compressed-size-action@v2
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         pattern: "./build/static/js/*.js"
         install-script: "npm install"
+        build-script: "npm run build"
