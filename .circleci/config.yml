@@ -1,33 +1,18 @@
 version: 2.1
 
 jobs:
-  build-and-test:
+  build_frontend_image:
     docker:
-
-      - image: cimg/node:20.11  # includes node + npm
-
-
+      - image: cimg/node:20.11
     steps:
       - checkout
       - setup_remote_docker
-       - run:
+      - run:
           name: Build frontend Docker image
           command: |
             docker build -t frontend-image:latest .
-      # - run:
-      #     name: "Install dependencies"
-      #     command: npm install
-
-#       - run:
-#           name: "Build React app"
-
-#           command: CI=false npm run build
 
 workflows:
   build_frontend:
     jobs:
       - build_frontend_image
-# workflows:
-#   react-integration:
-#     jobs:
-#       - build-and-test
