@@ -35,3 +35,21 @@ jobs:
 
       - name: Deploy to Vercel
         run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-preview:
+    if: github.event_name == 'pull_request'
+    needs: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel
+
+      - name: Deploy Preview to Vercel
+        run: vercel --token=${{ secrets.VERCEL_TOKEN }}
