@@ -23,8 +23,10 @@ function App() {
   const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await tasksAPI.getTasks();
-      setTasks(data);
+      const response = await tasksAPI.getTasks();
+      // Handle paginated { results: [...] } or plain [...] responses
+      const tasksData = response.results || (Array.isArray(response) ? response : response.tasks || []);
+      setTasks(tasksData);
       setError(null);
     } catch (err) {
       setError(
@@ -42,6 +44,17 @@ function App() {
       setLoading(false);
     }
   }, [isAuthenticated, fetchTasks]);
+
+  const createTask = async (taskData) => {
+    try {
+      const newTask = await tasksAPI.createTask(taskData);
+      const taskArray = Array.isArray(newTask) ? newTask : newTask.data || newTask;
+      setTasks([...tasks, taskArray]);
+    } catch (err) {
+      setError("Failed to create task");
+      console.error("Error creating task:", err);
+    }
+  };
 
   const deleteTask = async (id) => {
     try {
@@ -66,7 +79,7 @@ function App() {
   const handleLogin = async (username, password) => {
     try {
       const response = await authAPI.login({ username, password });
-      const token = response.token;
+      const token = response.data.token;
 
       // Set token in localStorage and state
       localStorage.setItem("token", token);
@@ -341,6 +354,63 @@ function App() {
                     ))}
                   </div>
                 )}
+
+                <div
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    padding: "20px",
+                    borderRadius: "5px",
+                    marginTop: "20px",
+                  }}
+                >
+                  <h3>Create New Task</h3>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      createTask({
+                        title: e.target.title.value,
+                        description: e.target.description.value,
+                        status: "to_do",
+                      });
+                      e.target.reset();
+                    }}
+                  >
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Task title"
+                      required
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        margin: "10px 0",
+                        padding: "10px",
+                        borderRadius: "3px",
+                        border: "none",
+                      }}
+                    />
+                    <textarea
+                      name="description"
+                      placeholder="Task description"
+                      required
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        margin: "10px 0",
+                        padding: "10px",
+                        borderRadius: "3px",
+                        border: "none",
+                        minHeight: "80px",
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      style={{ padding: "10px 20px", width: "100%" }}
+                    >
+                      Create Task
+                    </button>
+                  </form>
+                </div>
 
                 <div style={{ marginTop: "20px" }}>
                   <button onClick={fetchTasks} style={{ padding: "10px 20px" }}>

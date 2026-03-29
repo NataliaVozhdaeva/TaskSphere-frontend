@@ -60,15 +60,33 @@ export const authAPI = {
 
 // Tasks API calls
 export const tasksAPI = {
-  getTasks: () => api.get("/tasks/"),
+  getTasks: async () => {
+    const response = await api.get("/tasks/");
+    return response.data;
+  },
 
-  getTask: (id) => api.get(`/tasks/${id}/`),
+  getTask: async (id) => {
+    const response = await api.get(`/tasks/${id}/`);
+    return response.data;
+  },
 
-  createTask: (taskData) => api.post("/tasks/", taskData),
+  createTask: async (taskData) => {
+    const response = await api.post("/tasks/", taskData);
+    return response.data;
+  },
 
-  updateTask: (id, taskData) => api.put(`/tasks/${id}/`, taskData),
+  updateTask: async (id, taskData) => {
+    const response = await api.put(`/tasks/${id}/`, taskData);
+    return response.data;
+  },
 
-  patchTask: (id, taskData) => api.patch(`/tasks/${id}/`, taskData),
+  patchTask: async (id, taskData) => {
+    const response = await api.patch(`/tasks/${id}/`, taskData);
+    return response.data;
+  },
 
-  deleteTask: (id) => api.delete(`/tasks/${id}/`),
+  deleteTask: async (id) => {
+    const response = await api.delete(`/tasks/${id}/`);
+    return response.data;
+  },
 };
